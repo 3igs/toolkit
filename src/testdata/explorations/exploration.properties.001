@@ -1,0 +1,14 @@
+stage.01.engine: bigs.api.examples.SimpleFeaturesExtractor
+stage.01.SimpleFeaturesExtractor.lowPass: 0.1:10.3:102.34
+stage.01.SimpleFeaturesExtractor.highPass: 60:80:105
+
+stage.01.origin.datasource: bigs.modules.storage.hbase.HBaseDataSource
+stage.01.origin.HBaseDataSource.zookeeperServerList: localhost
+stage.01.origin.table:   imgsAndFiles
+
+stage.01.destination.datasource: bigs.modules.storage.hbase.HBaseDataSource
+stage.01.destination.HBaseDataSource.zookeeperServerList: localhost
+stage.01.destination.table:  datasets
+
+stage.01.nbsplits: 2
+

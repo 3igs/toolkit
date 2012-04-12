@@ -1,0 +1,18 @@
+stage.01.engine: bigs.api.examples.SimpleFeaturesExtractor
+stage.01.SimpleFeaturesExtractor.lowPass: 0.1:1:2:3:4:5
+stage.01.SimpleFeaturesExtractor.highPass: 60:80:90:100:200
+
+stage.01.origin.datasource: bigs.modules.storage.dynamodb.DynamoDBDataSource
+stage.01.origin.DynamoDBDataSource.accessKey: AKIAIOWFQRUK2AT6FPNA
+stage.01.origin.DynamoDBDataSource.secretKey: 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
+stage.01.origin.DynamoDBDataSource.s3bucket: bigs
+stage.01.origin.table:   imgs
+
+stage.01.destination.datasource: bigs.modules.storage.dynamodb.DynamoDBDataSource
+stage.01.destination.DynamoDBDataSource.accessKey: AKIAIOWFQRUK2AT6FPNA
+stage.01.destination.DynamoDBDataSource.secretKey: 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
+stage.01.destination.DynamoDBDataSource.s3bucket: bigs
+stage.01.destination.table:  datasets
+
+stage.01.nbsplits: 2
+

@@ -1,0 +1,92 @@
+<project name="bigs-fesample" default="dist" basedir=".">
+    <description>
+        simple example build file
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties"/>
+  <property name="docs"           location="docs"/>
+  <property name="contrib"       location="contrib"/>
+  <property name="src"           location="src"/>
+  <property name="src.java"      location="${src}/java"/>
+  <property name="src.java.test" location="${src.java}/test"/>
+  <property name="build"         location="build"/>
+  <property name="build.classes" location="${build}/classes"/>
+  <property name="build.src"     location="${build}/src"/>
+  <property name="build.src.java"    location="${build.src}/java"/>
+  <property name="dist"              location="dist"/>
+  <property name="lib"       value="lib"/>
+  <property name="appname"         value="bigs-fesample"/>
+
+  <path id="classpath">
+        <fileset dir="${lib}" includes="**/*.jar"/>
+        <fileset dir="${dist}" includes="**/*.jar"/>
+  </path>
+	
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+    <mkdir dir="${build.classes}"/>
+    <mkdir dir="${build.src}"/>
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <target name="prepare" depends="init">
+      <copy todir="${build.src}">
+          <fileset dir="${src}"/>
+      </copy>
+
+  </target>
+
+
+  <target name="compile" depends="prepare"
+        description="compile the source " >
+    <javac srcdir="${build.src.java}" destdir="${build.classes}" classpathref="classpath" debug="true"/>
+  </target>
+
+  <!-- CREATES AND SIGNS BIGS JAR -->
+  <target name="dist" depends="compile">
+
+    <jar jarfile="${dist}/${appname}.jar">
+        <fileset dir="${build.classes}"/>
+    </jar>
+  	
+  </target>
+	
+
+  <target name="junit.test" depends="dist">
+      <delete dir="${build.tests}"/>
+      <mkdir dir="${build.tests}"/>
+      <echo message="classpath ${toString:classpath}"/>
+      <junit printsummary="yes">
+          <classpath refid="classpath"/>
+          <formatter type="xml"/>
+          <batchtest todir="${build.tests}">
+                <fileset dir="${build.classes}">
+                    <include name="test/**/*Test*"/>
+                    <exclude name="**/AllTests*"/>
+                    <exclude name="**/Basic*"/>
+                </fileset>
+          </batchtest>
+      </junit>
+      <junitreport todir="${build.tests}">
+        <fileset dir="${build.tests}">
+            <include name="TEST-*.xml"/>
+        </fileset>
+        <report todir="${build.tests}" format="frames"/>
+      </junitreport>
+
+  </target>
+
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}">
+	<exclude name="**/.svn"/>
+    </delete>
+  </target>
+</project>

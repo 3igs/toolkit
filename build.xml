@@ -1,0 +1,262 @@
+<project name="bigs" default="dist" basedir=".">
+    <description>
+        simple example build file
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties"/>
+  <property name="docs"           location="docs"/>
+  <property name="contrib"       location="contrib"/>
+  <property name="src"           location="src"/>
+  <property name="src.java"      location="${src}/java"/>
+  <property name="src.web"      location="${src}/web"/>
+  <property name="src.java.test" location="${src.java}/test"/>
+  <property name="src.scripts"   location="${src}/scripts"/>
+  <property name="src.config"    location="${src}/config"/>
+  <property name="src.sdk"       location="${src}/sdk"/>	
+  <property name="build"         location="build"/>
+  <property name="build.tar"     location="${build}/tar"/>
+  <property name="build.classes" location="${build}/classes"/>
+  <property name="build.ws"      location="${build}/ws"/>
+  <property name="build.war"      location="${build}/war"/>
+  <property name="build.src"     location="${build}/src"/>
+  <property name="build.src.java"    location="${build.src}/java"/>
+  <property name="build.src.scripts" location="${build.src}/scripts"/>
+  <property name="build.tests"       location="${build}/tests"/>
+  <property name="build.doc"       location="${build}/doc"/>
+  <property name="dist"              location="dist"/>
+  <property name="lib"       value="lib"/>
+  <property name="bigs"         value="${bigs.distfilename}-${bigs.release}"/>
+
+  <property file="${bigs.properties.file}"/>
+
+  <path id="classpath">
+        <fileset dir="${lib}" includes="**/*.jar"/>
+        <fileset dir="${dist}" includes="**/*.jar"/>
+  </path>
+	
+  <filterset id="bigsstrings">
+    <filter token="RELEASE" value="${bigs.release}"/>
+    <filter token="RELEASE-STRING" value="${bigs.releasestring}"/>
+    <filter token="APPNAME" value="${bigs.appname}"/>
+    <filter token="DISTFILE" value="${bigs.distfilename}"/>
+  </filterset>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+    <mkdir dir="${build.classes}"/>
+    <mkdir dir="${build.src}"/>
+    <mkdir dir="${build.tests}"/>
+    <mkdir dir="${build.tar}"/>
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <target name="prepare" depends="init">
+      <copy todir="${build.src}">
+          <fileset dir="${src}">
+              <exclude name="jrocfit/**"/>
+          </fileset>
+          <filterset refid="bigsstrings"/>
+      </copy>
+    <copy todir="${build.doc}">
+        <fileset dir="${docs}"/>
+        <filterset refid="bigsstrings"/>
+    </copy>
+
+  </target>
+
+
+  <target name="compile" depends="prepare"
+        description="compile the source " >
+    <javac srcdir="${build.src.java}" destdir="${build.classes}" classpathref="classpath" debug="true"/>
+  </target>
+
+  <!-- CREATES AND SIGNS bigs JAR -->
+  <target name="dist" depends="compile">
+    <zip destfile="${build}/contrib.zip" basedir="${contrib}" excludes="**/.svn"/>
+  	<delete dir="${build}/tmp"/>
+  	<mkdir dir="${build}/tmp"/>
+
+  	<jar jarfile="${build}/tmp/${bigs}.jar">
+        <fileset dir="${build.classes}"/>
+        <fileset dir="${build}" includes="contrib.zip"/>
+        <path>
+        	<pathelement location="${build.src}/config/bigs-worker.jnlp"/>
+            <pathelement location="${build.src}/octave/octave-utils.m"/>
+        </path>  		
+    </jar>
+  	
+    <signjar destDir="${dist}"
+             alias     = "rlx"
+             keystore  = "${src.config}/keystore"
+             storepass = "mllmll">
+       <path>
+       	  <pathelement location="${build}/tmp/${bigs}.jar"/>
+       </path>
+    </signjar>
+
+  	<jar jarfile="${dist}/${bigs}-api.jar">
+        <fileset dir="${build.classes}" includes="bigs/api/**/*.class"/>
+    </jar>
+  	  	  	
+  	
+  </target>
+	
+  <target name="sdk" depends="dist, javadoc">
+  	<mkdir dir="${build}/sdk"/>
+  	
+    <copy todir="${build}/sdk">
+        <fileset dir="${src.sdk}" includes="**/*" excludes="**/.svn"/>
+    </copy>
+    <copy file="${dist}/${bigs}-api.jar" todir="${build}/sdk/lib"/>
+    <mkdir dir="${build}/sdk/doc/javadoc"/>
+    <copy todir="${build}/sdk/doc/javadoc">
+        <fileset dir="${build}/doc/api" includes="**/*"/>
+    </copy>
+  	
+  	<zip destfile="${dist}/${bigs}-sdk.zip" basedir="${build}/sdk"/>
+  	
+  	
+  </target>
+	
+  <!-- BUNDLES ALL FILES INTO A DISTRIBUTABLE TAR.GZ -->	
+  <target name="tar" depends="dist, worker.zip">
+  
+      <mkdir dir="${build.tar}/${bigs}"/>
+      <mkdir dir="${build.tar}/${bigs}/bin"/>
+      <mkdir dir="${build.tar}/${bigs}/conf"/>
+      <mkdir dir="${build.tar}/${bigs}/doc"/>
+      <mkdir dir="${build.tar}/${bigs}/contrib"/>
+      <mkdir dir="${build.tar}/${bigs}/web"/>
+      <mkdir dir="${build.tar}/${bigs}/web/lib"/>
+
+  	  <!-- COPIES JAR FILE -->
+      <copy todir="${build.tar}/${bigs}/web/lib">
+          <fileset dir="${dist}" includes="**/*.jar"/>
+      </copy>
+
+  	  <!-- SIGNS AND COPIES JAR FILES -->
+  	  <signjar destDir="${build.tar}/${bigs}/web/lib"
+               alias     = "rlx"
+               keystore  = "${src.config}/keystore"
+               storepass = "mllmll">
+         <path>
+            <fileset dir="${lib}" includes="**/*.jar"/>
+       	    <pathelement location="${build}/tmp/${bigs}.jar"/>
+         </path>
+      </signjar>
+
+  	  <!-- COPIES BIN DIR (scripts to call bigs) -->
+  	  <copy todir="${build.tar}/${bigs}/bin">
+          <fileset dir="${build.src}/scripts" includes="*bigs*"/>
+      </copy>
+      <chmod file="${build.tar}/${bigs}/bin/bigs" perm="a+rx"/>
+
+  	  <!-- COPIES DOCUMENTATION -->
+      <copy todir="${build.tar}/${bigs}/doc">
+          <fileset dir="${build.doc}" includes="**/quick*/*"/>
+      </copy>
+
+  	  <!-- COPIES CONTRIB -->
+      <copy todir="${build.tar}/${bigs}/contrib">
+	   <fileset dir="${contrib}" includes="**/*"/>
+      </copy>
+
+  	  <!-- COPIES WEB -->
+      <copy todir="${build.tar}/${bigs}/web">
+        <fileset dir="${build.src}/web" includes="**/*"/>
+      </copy>
+
+	  <!-- COPIES README.txt -->
+	  <copy todir="${build.tar}/${bigs}">
+           <fileset dir="${build.doc}" includes="README.txt"/>
+      </copy>
+
+  	  <!-- TARS EVERYTHING -->
+      <tar destfile="${dist}/${bigs}.tar.gz" compression="gzip">
+          <tarfileset dir="${build.tar}" excludes="**/bin/*"/>
+          <tarfileset dir="${build.tar}" includes="**/bin/*" filemode="755"/>
+      </tar>
+
+  </target>
+
+  <target name="worker.zip">
+    <mkdir dir="${build}/worker"/>
+  	<copy todir="${build}/worker">
+  		<fileset dir="${build.src}/scripts" includes="bigs-worker"/>
+  		<fileset dir="${lib}" includes="netx.jar"/>
+  		<fileset dir="${docs}" includes="README-worker.txt"/>
+  	</copy>
+    <tar destfile="${dist}/${bigs}-headless-worker.tar.gz" basedir="${build}/worker"/>
+  	
+  </target>
+
+  <target depends="dist" name="debug">
+        <nbjpdastart addressproperty="jpda.address" name="GRIDIMED" transport="dt_socket"/>
+        <java classname="${run.class}" classpathref="classpath" fork="yes">
+            <arg value="${bigs.properties.file}"/>
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
+        </java>
+  </target>
+ 
+  <target name="test" depends="dist">
+        <java   classname  = "medtk.util.FastTest" classpathref = "classpath"  fork = "yes">
+	    <jvmarg value="-Xbootclasspath/a:lib/pja.jar"/>
+            <arg value="${bigs.properties.file}"/>
+        </java>
+  </target>
+
+  <target name="junit.test" depends="dist">
+      <delete dir="${build.tests}"/>
+      <mkdir dir="${build.tests}"/>
+      <echo message="classpath ${toString:classpath}"/>
+      <junit printsummary="yes">
+          <classpath refid="classpath"/>
+          <formatter type="xml"/>
+          <batchtest todir="${build.tests}">
+                <fileset dir="${build.classes}">
+                    <include name="test/**/*Test*"/>
+                    <exclude name="**/AllTests*"/>
+                    <exclude name="**/Basic*"/>
+                </fileset>
+          </batchtest>
+      </junit>
+      <junitreport todir="${build.tests}">
+        <fileset dir="${build.tests}">
+            <include name="TEST-*.xml"/>
+        </fileset>
+        <report todir="${build.tests}" format="frames"/>
+      </junitreport>
+
+  </target>
+
+  <target name = "javadoc">
+  <javadoc packagenames="bigs.api.*"
+           sourcepath="src/java"
+           defaultexcludes="yes"
+           destdir="build/doc/api"
+           author="true"
+           version="true"
+           use="true"
+           windowtitle="bigs API">
+    <doctitle><![CDATA[<h1>bigs API</h1>]]></doctitle>
+    <bottom><![CDATA[<i>by rlx.</i>]]></bottom>
+    <tag name="todo" scope="all" description="To do:"/>
+    <group title="Storage API" packages="bigs.api.storage.*"/>
+    <group title="Feature extraction API" packages="bigs.api.featureextraction.*"/>
+  </javadoc>
+  </target>
+
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}">
+	<exclude name="**/.svn"/>
+    </delete>
+  </target>
+</project>

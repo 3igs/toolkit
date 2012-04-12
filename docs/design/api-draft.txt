@@ -1,0 +1,62 @@
+public class LLD {
+    List<List<Double> data;
+
+    public LLD (List<List<Data>> data) {
+        this.data = data;
+    }
+    List<List<Double> getData();
+}
+
+public interface Splitter inherit Aggregator {
+
+    public Long getNumberOfSplitSets();
+
+    public Long getSplit(String key, Long itemNumber, Long splitSetNumber);
+    
+}
+
+
+public interface Task {}
+
+public class FESample implements TransformerTask {
+    public void initiateTask();
+    public LLD processDataItem(LLD);
+    public void finalizeTask();
+}
+
+public class Kmeans implements AggregatorTask {
+
+    public void initiateSplit();
+    public void processDataItem(LLD);
+    public void finalizeSplit();
+
+    public Object getSplitResult();
+
+    public void initiateAggregation()
+    public void aggregateSplitResult(Object);
+    public void finalizeAggregation()
+    public Object getAggregationResult();
+    
+    public Object getStatus();
+    public void setStatus();
+
+}
+
+public interface TransformerTask {
+
+    public LLD processDataItem(LLD);
+}
+
+public CrossValidationSplitter implemets Splitter {
+
+    @BIGSParam
+    public Integer numberOfFolds;
+    
+    public Integer getNumberOfSplitSets() {
+        return numberOfFolds;
+    }
+    
+    public Boolean isInSplitSet(Long itemNumber, Long splitSetNumber);
+    
+}
+

@@ -1,0 +1,418 @@
+--------
+stage.01.engine: mll.api.examples.SimpleFeaturesExtractor
+stage.01.SimpleFeaturesExtractor.lowPass: 0.1:1:2:3:4:5
+stage.01.SimpleFeaturesExtractor.highPass: 60:80:90:100:200
+
+stage.01.origin.datasource: mll.dynamodb.DynamoDBDataSource
+stage.01.origin.DynamoDBDataSource.accessKey: AKIAIOWFQRUK2AT6FPNA
+stage.01.origin.DynamoDBDataSource.secretKey: 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
+stage.01.origin.DynamoDBDataSource.s3bucket: bigs
+stage.01.origin.table:   imgs
+
+stage.01.destination.datasource: mll.dynamodb.DynamoDBDataSource
+stage.01.destination.DynamoDBDataSource.accessKey: AKIAIOWFQRUK2AT6FPNA
+stage.01.destination.DynamoDBDataSource.secretKey: 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
+stage.01.destination.DynamoDBDataSource.s3bucket: bigs
+stage.01.destination.table:  datasets
+
+stage.01.nbsplits: 2
+-----
+3520 -rw-r--r--    1 rlx  staff  1800342 25 mar 18:09 Dibujo.bmp
+2392 -rw-r--r--    1 rlx  staff  1223034 28 dic 11:38 GNSS_needs.bmp
+3368 -rw-r--r--    1 rlx  staff  1722798 28 dic 11:50 High_level_Architecture.bmp
+ 288 -rw-r--r--@   1 rlx  staff   146060 25 mar 10:58 SOCIALISMO-UNAL.jpg
+2712 -rw-r--r--    1 rlx  staff  1385526 28 dic 11:56 WP1000_Management.bmp
+  64 -rw-r--r--    1 rlx  staff    31443 25 mar 10:58 all-logos.jpg
+ 184 -rw-r--r--@   1 rlx  staff    92221 25 mar 10:58 conference-services.jpg
+3552 -rw-r--r--    1 rlx  staff  1814854 25 mar 18:08 cronograma_events.bmp
+6008 -rw-r--r--    1 rlx  staff  3072054 25 mar 18:09 ejecucion en weka.bmp
+1992 -rw-r--r--    1 rlx  staff  1017474  1 ene 14:30 galileoic.org.bmp
+2800 -rw-r--r--    1 rlx  staff  1429782  1 ene 14:30 gallileoicBis.bmp
+2712 -rw-r--r--    1 rlx  staff  1384614 27 oct 09:25 logoglite.bmp
+3992 -rw-r--r--    1 rlx  staff  2042650 28 dic 12:00 segments-block-GACELA.bmp
+  48 -rw-r--r--@   1 rlx  staff    22335 25 mar 10:58 three-satellites-banner.jpg
+  48 -rw-r--r--@   1 rlx  staff    22235 25 mar 10:58 yellow-pages-940x150.jpg
+
+----------------------------
+----------------------------
+----------------------------
+with t1.micro instances
+----------------------------
+----------------------------
+----------------------------
+
+12/03/25 20:39:40 INFO mll: rlxmac 
+Repeats:         1 /     0 done /     0 in progress 
+Configs:        30 /     0 done /     0 in progress 
+Stages:         30 /     0 done /     0 in progress 
+Runs:           30 /     0 done /     0 in progress 
+Splits:         60 /    60 done /     0 in progress 
+--------
+Exploration:   152 /    60 done (39.47%) /     0 in progress (0.00%) 
+
+start time   2012/03/26 00:56:35.512
+time done    2012/03/26 01:05:06.047
+elapsed time 8.51min (510535 milisecs)
+compute time 4.36sec (4365 milisecs)
+
+compute time per participating host:
+domU-12-31-39-14-FA-E4        632.00ms      (14.48 %)
+domU-12-31-39-0E-34-5E        495.00ms      (11.34 %)
+ip-10-191-53-168              1.04sec       (23.83 %)
+ip-10-191-55-201              891.00ms      (20.41 %)
+ip-10-72-195-84               1.31sec       (29.94 %)
+
+-----
+
+12/03/25 20:40:31 INFO mll: rlxmac exploration: [00002] [   DONE  ]
+12/03/25 20:40:31 INFO mll: rlxmac 
+Repeats:         1 /     0 done /     0 in progress 
+Configs:        30 /     0 done /     0 in progress 
+Stages:         30 /     0 done /     0 in progress 
+Runs:           30 /     0 done /     0 in progress 
+Splits:         60 /    60 done /     0 in progress 
+--------
+Exploration:   152 /    60 done (39.47%) /     0 in progress (0.00%) 
+
+start time   2012/03/26 01:10:05.040
+time done    2012/03/26 01:23:34.297
+elapsed time 13.49min (809257 milisecs)
+compute time 4.90sec (4904 milisecs)
+
+compute time per participating host:
+domU-12-31-39-14-FA-E4        390.00ms      (7.95 %)
+domU-12-31-39-09-9C-A0        546.00ms      (11.13 %)
+domU-12-31-39-09-CC-1A        624.00ms      (12.72 %)
+ip-10-191-182-119             497.00ms      (10.13 %)
+domU-12-31-39-0E-34-5E        293.00ms      (5.97 %)
+ip-10-191-53-168              272.00ms      (5.55 %)
+ip-10-191-55-201              344.00ms      (7.01 %)
+domU-12-31-39-14-3C-A9        311.00ms      (6.34 %)
+ip-10-191-182-15              830.00ms      (16.92 %)
+ip-10-72-195-84               797.00ms      (16.25 %)
+
+participating hosts 10
+-----
+
+12/03/25 20:41:01 INFO mll: rlxmac exploration: [00003] [   DONE  ]
+12/03/25 20:41:01 INFO mll: rlxmac 
+Repeats:         1 /     0 done /     0 in progress 
+Configs:        30 /     0 done /     0 in progress 
+Stages:         30 /     0 done /     0 in progress 
+Runs:           30 /     0 done /     0 in progress 
+Splits:         60 /    60 done /     0 in progress 
+--------
+Exploration:   152 /    60 done (39.47%) /     0 in progress (0.00%) 
+
+start time   2012/03/26 01:26:00.549
+time done    2012/03/26 01:36:55.871
+elapsed time 10.92min (655322 milisecs)
+compute time 4.46sec (4463 milisecs)
+
+compute time per participating host:
+domU-12-31-39-14-FA-E4        799.00ms      (17.90 %)
+domU-12-31-39-09-9C-A0        368.00ms      (8.25 %)
+domU-12-31-39-09-CC-1A        354.00ms      (7.93 %)
+ip-10-191-182-119             474.00ms      (10.62 %)
+domU-12-31-39-0E-34-5E        238.00ms      (5.33 %)
+ip-10-191-53-168              530.00ms      (11.88 %)
+ip-10-191-55-201              641.00ms      (14.36 %)
+domU-12-31-39-14-3C-A9        395.00ms      (8.85 %)
+ip-10-191-182-15              512.00ms      (11.47 %)
+ip-10-72-195-84               152.00ms      (3.41 %)
+
+participating hosts 10
+
+----------------------------
+----------------------------
+----------------------------
+with m1.small instances
+----------------------------
+----------------------------
+----------------------------
+
+12/03/25 20:53:35 INFO mll: rlxmac exploration: [00004] [   DONE  ]
+12/03/25 20:53:35 INFO mll: rlxmac 
+Repeats:         1 /     0 done /     0 in progress 
+Configs:        30 /     0 done /     0 in progress 
+Stages:         30 /     0 done /     0 in progress 
+Runs:           30 /     0 done /     0 in progress 
+Splits:         60 /    60 done /     0 in progress 
+--------
+Exploration:   152 /    60 done (39.47%) /     0 in progress (0.00%) 
+
+start time   2012/03/26 01:41:24.131
+time done    2012/03/26 01:49:35.108
+elapsed time 8.18min (490977 milisecs)
+compute time 9.01sec (9010 milisecs)
+
+compute time per participating host:
+ip-10-46-197-131              2.42sec       (26.86 %)   evals: 13
+ip-10-46-185-151              1.12sec       (12.40 %)   evals: 9
+ip-10-191-82-183              2.02sec       (22.45 %)   evals: 14
+ip-10-111-43-38               1.60sec       (17.78 %)   evals: 11
+ip-10-191-83-171              1.85sec       (20.51 %)   evals: 13
+
+participating hosts 5
+
+---
+12/03/25 21:07:56 INFO mll: rlxmac exploration: [00005] [   DONE  ]
+12/03/25 21:07:56 INFO mll: rlxmac 
+Repeats:         1 /     0 done /     0 in progress 
+Configs:        30 /     0 done /     0 in progress 
+Stages:         30 /     0 done /     0 in progress 
+Runs:           30 /     0 done /     0 in progress 
+Splits:         60 /    60 done /     0 in progress 
+--------
+Exploration:   152 /    60 done (39.47%) /     0 in progress (0.00%) 
+
+start time   2012/03/26 01:54:25.243
+time done    2012/03/26 02:07:13.503
+elapsed time 12.80min (768260 milisecs)
+compute time 9.44sec (9440 milisecs)
+
+compute time per participating host:
+ip-10-46-197-131              434.00ms      (4.60 %)    evals: 4
+ip-10-190-233-88              977.00ms      (10.35 %)   evals: 5
+ip-10-46-185-151              733.00ms      (7.76 %)    evals: 4
+ip-10-191-81-86               1.04sec       (10.96 %)   evals: 7
+ip-10-191-83-100              1.31sec       (13.85 %)   evals: 8
+ip-10-70-70-237               1.31sec       (13.91 %)   evals: 9
+ip-10-191-82-183              695.00ms      (7.36 %)    evals: 5
+ip-10-46-202-60               1.90sec       (20.18 %)   evals: 11
+ip-10-111-43-38               177.00ms      (1.88 %)    evals: 2
+ip-10-191-83-171              864.00ms      (9.15 %)    evals: 5
+
+participating hosts 10
+--------------
+----------------------------
+----------------------------
+----------------------------
+with m1.small instances AND 100 read/write capacity
+----------------------------
+----------------------------
+----------------------------
+
+
+Repeats:         1 /     0 done /     0 in progress 
+Configs:        30 /     0 done /     0 in progress 
+Stages:         30 /     0 done /     0 in progress 
+Runs:           30 /     0 done /     0 in progress 
+Splits:         60 /    60 done /     0 in progress 
+--------
+Exploration:   152 /    60 done (39.47%) /     0 in progress (0.00%) 
+
+start time   2012/03/27 17:25:29.039
+time done    2012/03/27 17:28:05.862
+elapsed time 2.61min (156823 milisecs)
+compute time 8.20sec (8201 milisecs)
+
+compute time per participating host:
+domU-12-31-39-09-9A-C7        8.20sec       (100.00 %)  evals: 152
+
+participating hosts 1
+
+-----
+Repeats:         1 /     0 done /     0 in progress 
+Configs:        30 /     0 done /     0 in progress 
+Stages:         30 /     0 done /     0 in progress 
+Runs:           30 /     0 done /     0 in progress 
+Splits:         60 /    60 done /     0 in progress 
+--------
+Exploration:   152 /    60 done (39.47%) /     0 in progress (0.00%) 
+
+start time   2012/03/27 17:33:02.366
+time done    2012/03/27 17:34:36.386
+elapsed time 94.02sec (94020 milisecs)
+compute time 8.44sec (8440 milisecs)
+
+compute time per participating host:
+domU-12-31-39-09-9A-C7        3.89sec       (46.08 %)   evals: 118
+domU-12-31-39-0F-7D-62        4.55sec       (53.92 %)   evals: 34
+
+participating hosts 2
+
+-------------
+amazon dynamodb metrics for 5 read/write capacity
+-------------
+table imgs
+Consumed Read Capacity Units:
+0.208
+Consumed Write Capacity Units:
+0.013
+Get Item Latency (avg in milliseconds):
+No Data
+Put Item Latency (avg in milliseconds):
+No Data
+Query Latency (avg in milliseconds):
+4.766
+
+table datasets
+Consumed Read Capacity Units:
+No Data
+Consumed Write Capacity Units:
+0.464
+Get Item Latency (avg in milliseconds):
+No Data
+Put Item Latency (avg in milliseconds):
+4.904
+Query Latency (avg in milliseconds):
+No Data
+
+table evals
+Consumed Read Capacity Units:
+6.237
+Consumed Write Capacity Units:
+0.331
+Get Item Latency (avg in milliseconds):
+2.772
+Put Item Latency (avg in milliseconds):
+4.668
+Query Latency (avg in milliseconds):
+3.153
+table explorations
+Consumed Read Capacity Units:
+0.838
+Consumed Write Capacity Units:
+0.011
+Get Item Latency (avg in milliseconds):
+4.692
+Put Item Latency (avg in milliseconds):
+7.132
+Query Latency (avg in milliseconds):
+3.96
+table mll
+Consumed Read Capacity Units:
+No Data
+Consumed Write Capacity Units:
+0.001
+Get Item Latency (avg in milliseconds):
+No Data
+Put Item Latency (avg in milliseconds):
+No Data
+Query Latency (avg in milliseconds):
+No Data
+
+----------------------------
+EXPERIMENTS EXAMPLE OUTPUT
+----------------------------
+
+
+Repeats:         1 /     0 done /     0 in progress 
+Configs:         1 /     0 done /     0 in progress 
+Stages:          1 /     0 done /     0 in progress 
+Runs:            1 /     0 done /     0 in progress 
+Splits:         20 /    20 done /     0 in progress 
+--------
+Exploration:    25 /    20 done (80.00%) /     0 in progress (0.00%) 
+
+start time   2012/03/28 16:52:29.026
+time done    2012/03/28 16:54:39.479
+elapsed time 2.17min (130453 milisecs)
+compute time 14.15min (849020 milisecs)
+
+compute time per participating host:
+ip-10-117-89-190              85.00sec      (10.01 %)   evals: 2
+ip-10-194-185-235             85.00sec      (10.01 %)   evals: 2
+ip-10-110-42-46               2.10min       (14.84 %)   evals: 8
+ip-10-116-193-191             2.10min       (14.84 %)   evals: 3
+ip-10-64-45-80                86.00sec      (10.13 %)   evals: 2
+ip-10-244-17-158              87.00sec      (10.25 %)   evals: 2
+ip-10-212-231-148             86.00sec      (10.13 %)   evals: 2
+ip-10-72-254-85               85.00sec      (10.01 %)   evals: 2
+ip-10-194-7-196               83.00sec      (9.78 %)    evals: 2
+
+
+
+---------------
+	evals read:100 write:100
+	50 splits
+	random.fe [5s, 8s]
+small_1000_jpg	t1.micro
+---------------	
+2/03/29 03:24:17 DEBUG mll: ip-10-243-74-110 offset to time reference is -378.00ms 
+12/03/29 03:24:17 INFO mll: ip-10-243-74-110 reference time is 2012/03/29 03:24:18.000
+12/03/29 03:24:17 INFO mll: ip-10-243-74-110 exploration: [00004] [   DONE  ]
+12/03/29 03:24:17 INFO mll: ip-10-243-74-110 
+Repeats:         1 /     0 done /     0 in progress 
+Configs:         1 /     0 done /     0 in progress 
+Stages:          1 /     0 done /     0 in progress 
+Runs:            1 /     0 done /     0 in progress 
+Splits:         50 /    50 done /     0 in progress 
+--------
+Exploration:    55 /    50 done (90.91%) /     0 in progress (0.00%) 
+
+start time   2012/03/29 03:17:53.411
+time done    2012/03/29 03:24:17.916
+elapsed time 6.41min (384505 milisecs)
+compute time 99.52min (5971285 milisecs)
+
+compute time per participating host:
+domU-12-31-39-13-01-1C        5.87min       (5.90 %)    evals: 3
+domU-12-31-39-14-69-C1        4.10min       (4.12 %)    evals: 2
+domU-12-31-39-0B-0C-6D        3.98min       (4.00 %)    evals: 2
+domU-12-31-39-14-6A-AD        6.00min       (6.03 %)    evals: 3
+ip-10-204-133-137             5.97min       (6.00 %)    evals: 3
+domU-12-31-39-12-3A-93        4.05min       (4.07 %)    evals: 2
+domU-12-31-39-0F-34-67        5.98min       (6.01 %)    evals: 3
+ip-10-112-47-163              4.05min       (4.07 %)    evals: 2
+domU-12-31-39-0A-9E-47        3.97min       (3.99 %)    evals: 2
+domU-12-31-39-09-D4-A2        4.02min       (4.04 %)    evals: 2
+ip-10-243-95-65               5.78min       (5.81 %)    evals: 3
+domU-12-31-39-00-E0-3E        3.93min       (3.95 %)    evals: 2
+domU-12-31-39-0B-E0-1F        5.97min       (6.00 %)    evals: 3
+ip-10-244-30-151              5.75min       (5.78 %)    evals: 3
+domU-12-31-39-09-22-A0        4.07min       (4.09 %)    evals: 2
+ip-10-243-74-110              5.88min       (5.91 %)    evals: 8
+ip-10-70-75-200               4.04min       (4.06 %)    evals: 2
+domU-12-31-39-15-3E-5D        5.92min       (5.95 %)    evals: 3
+ip-10-195-77-192              4.15min       (4.17 %)    evals: 2
+ip-10-194-169-123             6.05min       (6.08 %)    evals: 3
+-----------------
+
+
+
+
+	evals read:100 write:100
+	50 splits
+	random.fe [0s, 2s]
+small_1000_jpg	t1.micro
+					
+12/03/29 03:12:22 INFO mll: ip-10-243-74-110 exploration: [00003] [   DONE  ]
+12/03/29 03:12:22 INFO mll: ip-10-243-74-110 	
+Repeats:         1 /     0 done /     0 in progress 
+Configs:         1 /     0 done /     0 in progress 
+Stages:          1 /     0 done /     0 in progress 
+Runs:            1 /     0 done /     0 in progress 
+Splits:         50 /    50 done /     0 in progress 
+--------				
+Exploration:    55 /    50 done (90.91%) /     0 in progress (0.00%) 				
+				
+start time   2012/03/29 03:10:51.702				
+time done    2012/03/29 03:12:20.535				
+elapsed time 88.83sec (88833 milisecs)				
+compute time 8.69min (521124 milisecs)				
+				
+compute time per participating host:				
+domU-12-31-39-14-69-C1        36.01sec      (6.91 %)    evals: 3
+domU-12-31-39-13-01-1C        18.01sec      (3.46 %)    evals: 2
+domU-12-31-39-0B-0C-6D        31.01sec      (5.95 %)    evals: 3
+domU-12-31-39-14-6A-AD        31.00sec      (5.95 %)    evals: 3
+ip-10-204-133-137             20.01sec      (3.84 %)    evals: 2
+domU-12-31-39-12-3A-93        23.00sec      (4.41 %)    evals: 2
+ip-10-112-47-163              19.00sec      (3.65 %)    evals: 2
+domU-12-31-39-0F-34-67        35.01sec      (6.72 %)    evals: 3
+domU-12-31-39-0A-9E-47        23.01sec      (4.42 %)    evals: 2
+domU-12-31-39-09-D4-A2        32.00sec      (6.14 %)    evals: 3
+ip-10-243-95-65               22.00sec      (4.22 %)    evals: 2
+domU-12-31-39-00-E0-3E        23.01sec      (4.42 %)    evals: 2
+domU-12-31-39-0B-E0-1F        31.01sec      (5.95 %)    evals: 3
+ip-10-244-30-151              16.00sec      (3.07 %)    evals: 2
+ip-10-243-74-110              19.01sec      (3.65 %)    evals: 7
+domU-12-31-39-09-22-A0        31.01sec      (5.95 %)    evals: 3
+ip-10-70-75-200               26.01sec      (4.99 %)    evals: 3
+domU-12-31-39-15-3E-5D        27.00sec      (5.18 %)    evals: 3
+ip-10-195-77-192              29.01sec      (5.57 %)    evals: 3
+ip-10-194-169-123             29.01sec      (5.57 %)    evals: 2				
+				
+participating hosts 20				

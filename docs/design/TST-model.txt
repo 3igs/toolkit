@@ -1,0 +1,104 @@
+TAG-SCHEDULE-TASK processing model
+
+A schedule is hierarchy of Task-Levels, each level composed of a set of identical Task-Blocks
+
+A Task-Level defines parameters and generic behavior placeholders for itself and its Task-Blocks
+
+Examples of Task-Levels: Iteration, DataPartition, CrossValidation
+
+A Task-Level defines whether it executes its blocks sequentially or in parallel
+
+A Task-Level also defines how input data is tagged
+
+A Task defines concrete behaviour for the placeholder defined by certain Task-Levels (and not necesarily for all Task-Levels)
+
+Examples of Tasks: KMeans, RGBFeaturesExtractor, SummationFormSVM
+
+A Stage of a Pipeline defines:
+
+   - A task (and concrete configuration parameters)
+   - A list (hierarchy) of Task-Levels (and concrete configuration parameters)
+   - An input datasource
+   - An output datasource
+   
+   For instance:
+   
+   stage.01.task: bigs.modules.ml.KMeans
+   stage.01.level.01: bigs.modules.levels.Iteration
+   stage.01.level.02: bigs.modules.levels.DataPartition
+   stage.01.input.source: bigs.modules.storage.HBaseDataSource
+   stage.01.input.table: dataset.CLEF2012
+   stage.01.outpu.source: bigs.modules.storage.HBaseDataSource
+   stage.01.output.table: models.CLEF2012
+
+   stage.01.KMeans.numberOfCentroids: 20
+   stage.01.Iteration.numberOfIterations: 2
+   stage.01.DataPartition.numberOfPartitions: 2
+      
+From this, BIGS
+   (1) allows each Task-Level to tag input data as desired
+   (2) establishes a schedule to process all input data grouped by tags
+   (3) establishes execution priorities according to whether Task-Levels are parallel or sequential
+   (4) provides workers to to execute the schedule
+   
+A schedule is composed of a set of Work-Units, comprising initialization and finalization
+code for levels and blocks, and for the block themselves.
+
+For the above example, the following schedule is generated, along with the execution
+priorities for each combination of sequential/parallel for the two participating levels.
+
+                                                                           A     B     C     D
+
+  L1-PRE             Iteration.PreLevel                                    1     1     1     1
+  L-PRE
+
+  L1.B1-PRE             Iteration.PreBlock (TAG iteration=1)               2     2     2     2
+
+  L1.B1.L2-PRE             DataPartition.PreLevel                          3     3     3     3
+
+  L1.B1.L2.B1-BLCK            DataPartition.PreBlock (TAG partition=1) |
+                                    LOOP.DataPartition.ProcessDataItem    |   4     4     4     4
+                                 DataPartition.PostBlock                  |
+
+  L1.B1.L2.B2-BLCK            DataPartition.PreBlock (TAG partition=2) |
+                                    LOOP.DataPartition.ProcessDataItem    |   5     4     4     5
+                                 DataPartition.PostBlock                  |
+
+  L1.B1.L2-POST            DataPartition.PostLevel                         6     5     5     6
+
+  L1.B1-POST            Iteration.PostBlock                                7     6     6     7
+
+  L1.B2-PRE             Iteration.PreBlock (TAG iteration=2)               8     7     2     2
+
+  L1.B2.L2-PRE             DataPartition.PreLevel                          9     8     3     3
+
+  L1.B2.L2.B1-BLCK            DataPartition.PreBlock (TAG partition=1) |
+                                    LOOP.DataPartition.ProcessDataItem    |   10    9     4      4
+                                 DataPartition.PostBlock                  |
+
+  L1.B2.L2.B2-BLCK            DataPartition.PreBlock (TAG partition=2) |
+                                    LOOP.DataPartition.ProcessDataItem    |   11    9     4      5
+                                 DataPartition.PostBlock                  |
+ 
+  L1.B2.L2-POST            DataPartition.PostLevel                         12    10    5      6
+
+  L1.B2-POST            Iteration.PostBlock                                13    11    6      7
+
+  L1-POST            Iteration.PostLevel                                   14    12    7      8
+  
+   
+   
+  Parallel-Sequential cases
+  ========================== 
+   
+   A: Iteration      Sequential
+      Data Partition Sequential
+      
+   B: Iteration      Sequential
+      Data Partition Parallel
+
+   C: Iteration      Parallel
+      Data Partition Parallel
+
+   D: Iteration      Parallel
+      Data Partition Sequential

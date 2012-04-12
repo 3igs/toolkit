@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# calculate BASEDIR and LIBDIR
+BASEDIR=`dirname $0`
+CURRENTDIR=`pwd`
+cd $BASEDIR
+cd ..
+BASEDIR=`pwd`
+cd $CURRENTDIR
+LIBDIR=$BASEDIR/web/lib
+
+# build classpath including all jars in lib dir
+CLASSPATH=
+for jar in `ls $LIBDIR/*.jar`
+do
+	CLASSPATH=$CLASSPATH:$jar
+done
+
+
+JHTEST=`echo ".$JAVA_HOME."`
+if [ $JHTEST = ".." ]; then
+	echo "You must define JAVA_HOME to use bigs"
+	exit 1;
+fi
+
+echo "BIGS using JAVA_HOME at $JAVA_HOME"
+
+$JAVA_HOME/bin/java -cp $CLASSPATH bigs.core.BIGS --basedir $BASEDIR ${1+"$@"}
+	

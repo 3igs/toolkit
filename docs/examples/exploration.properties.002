@@ -1,0 +1,14 @@
+stage.01.engine: bigs.api.examples.RandomTimeFeaturesExtractor
+stage.01.RandomTimeFeaturesExtractor.minTime: 10
+stage.01.RandomTimeFeaturesExtractor.maxTime: 20
+
+stage.01.origin.datasource: bigs.modules.storage.hbase.HBaseDataSource
+stage.01.origin.HBaseDataSource.zookeeperServerList: localhost
+stage.01.origin.table:   imgsAndFiles
+
+stage.01.destination.datasource: bigs.modules.storage.hbase.HBaseDataSource
+stage.01.destination.HBaseDataSource.zookeeperServerList: localhost
+stage.01.destination.table:  datasets
+
+stage.01.nbsplits: 2
+
