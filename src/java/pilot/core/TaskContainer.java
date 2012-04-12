@@ -25,7 +25,7 @@ public abstract class TaskContainer implements Configurable {
 	
 	public abstract List<Class<? extends Task>> allowedTasks();
 		
-	public abstract List<TaskContainer> generateTaskContainers();	
+	public abstract List<TaskContainer> generateMyTaskContainers();	
 	
 	public abstract Boolean supportsParallelization();
 
@@ -35,9 +35,9 @@ public abstract class TaskContainer implements Configurable {
 	public abstract void processPostSubContainers();
 		
 	
-	public abstract void processPreContainer();
+	public abstract void processPreMyContainers();
 	
-	public abstract void processPostContainer();	
+	public abstract void processPostMyContainers();	
 
 	
 	public abstract void processPreDataBlock();
@@ -139,7 +139,7 @@ public abstract class TaskContainer implements Configurable {
 		String containerPropertyName = "container."+Text.zeroPad(new Long(containerNumber), 2);
 		try {
 			TaskContainer container = Core.getConfiguredObject(containerPropertyName, TaskContainer.class, properties, propertiesPrefix);
-			for (TaskContainer tc: container.generateTaskContainers()) {
+			for (TaskContainer tc: container.generateMyTaskContainers()) {
 				r.add(tc);
 				List<TaskContainer> subContainers = TaskContainer.fromProperties(properties, propertiesPrefix, containerNumber+1);				
 				if (subContainers!=null) {

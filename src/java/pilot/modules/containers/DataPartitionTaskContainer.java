@@ -42,7 +42,7 @@ public class DataPartitionTaskContainer extends TaskContainer {
 	}
 
 	@Override
-	public List<TaskContainer> generateTaskContainers() {
+	public List<TaskContainer> generateMyTaskContainers() {
 		List<TaskContainer> r = new ArrayList<TaskContainer>();
 		for (int i=1; i<= this.numberOfPartitions; i++) {
 			TaskContainer tb = new DataPartitionTaskContainer(this.numberOfPartitions, i);
@@ -96,13 +96,13 @@ public class DataPartitionTaskContainer extends TaskContainer {
 	}
 
 	@Override
-	public void processPreContainer() {
+	public void processPreMyContainers() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void processPostContainer() {
+	public void processPostMyContainers() {
 		// TODO Auto-generated method stub
 		
 	}
